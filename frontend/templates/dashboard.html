@@ -20,10 +20,11 @@
             <h1>Academic Flow</h1>
 
             <nav>
-                <a href="#">Fluxograma</a>
-                <a href="#">Materias</a>
-                <a href="#">Listas de Atividades</a>
-                <a href="#">Auto-Boca</a>
+                <a href="{{ url_for('dashboard') }}">Home</a>
+                <a href="{{ url_for('fluxograma') }}">Fluxograma</a>
+                <a href="{{ url_for('materias') }}">Materias</a>
+                <a href="{{ url_for('atividades') }}">Listas de Atividades</a>
+                <a href="{{ url_for('autoboca') }}">Auto-Boca</a>
             </nav>
 
             <nav class="gap-3">

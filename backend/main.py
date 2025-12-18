@@ -69,14 +69,14 @@ def fluxograma():
     
     return render_template('fluxograma.html')
 
-@app.route('/materiais')
-def materiais():
+@app.route('/materias')
+def materias():
     matricula = session.get('matricula')
     
     if not matricula:
         return redirect('/entrar')
     
-    return render_template('materiais.html')
+    return render_template('materias.html')
 
 @app.route('/logout')
 def logout():
