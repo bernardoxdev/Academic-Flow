@@ -35,8 +35,8 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     event.preventDefault();
 
     const payload = {
-        matricula: loginMatricula.value,
-        senha: loginPassword.value
+        dadoLogin: loginMatricula.value,
+        password: loginPassword.value
     }
 
     const response = await fetch('/api/login', {
@@ -66,10 +66,10 @@ document.getElementById('registroForm').addEventListener('submit', async (event)
     event.preventDefault();
     
     const payload = {
-        nome: registroNome.value,
-        matricula: registroMatricula.value,
+        username: registroNome.value,
         email: registroEmail.value,
-        senha: registroPassword.value
+        matricula: registroMatricula.value,
+        password: registroPassword.value
     }
 
     const response = await fetch('/api/register', {
