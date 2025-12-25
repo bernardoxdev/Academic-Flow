@@ -7,6 +7,8 @@
 
     <title>Academic Flow - Materias</title>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materias.css') }}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
@@ -35,24 +37,152 @@
         </div>
     </header>
 
-    <main>
-        <section>
-            <div class="intro">
-                <h1>Materias</h1>
-                <h2>Gerencie suas matérias e adicione comentários a matérias que você já fez</h2>
+    <div class="modal fade" id="modalCriar" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">Adicionar Matéria</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formAdicionar">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="materia" class="form-label">Matéria</label>
+                            <select class="form-select" name="materia" id="materia-adicionar"></select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRemover" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">Remover Matéria</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formRemover">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="materia" class="form-label">Matéria</label>
+                            <select class="form-select" id="materia-remover" name="materia" required>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalMateria" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formMateria">
+                    <div class="modal-body d-flex flex-row gap-3">
+                        <div class="mb-3">
+                            <label for="nota" class="form-label">Nota</label>
+
+                            <div class="d-flex flex-row">
+                                <input type="number" class="form-control" id="nota-form" name="nota" min="0" max="10"
+                                    step="0.1" required>
+                                <p>/10</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="dificuldade" class="form-label">Dificuldade</label>
+
+                            <div class="d-flex flex-row">
+                                <input type="number" class="form-control" id="dificuldade=form" name="dificuldade"
+                                    min="0" max="10" step="0.1" required>
+                                <p>/10</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalComentarios" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" style="min-height: 85vh;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-comentarios">
+                        Comentários da Matéria
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="comentarios-container" class="d-flex flex-column gap-3"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container d-flex justify-content-center flex-column align-items-center">
+        <section class="intro text-center">
+            <h1>Matérias</h1>
+            <p>Gerencie suas matérias cursadas, em andamento e adicione comentários personalizados.</p>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">Em andamento</h2>
 
             <div>
-                <div></div>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCriar">
+                    ➕ Adicionar Materia
+                </button>
 
-                <div id="materias-fazendo"></div>
+                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalRemover">
+                    🗑 Remover Materia
+                </button>
             </div>
 
-            <div>
-                <div></div>
+            <div id="materias-fazendo" class="card-grid"></div>
+        </section>
 
-                <table id="table-comentarios"></table>
-            </div>
+        <section class="content-section">
+            <h2 class="section-title">Comentários</h2>
+
+            <form id="formComentario">
+                <div class="mb-3">
+                    <label for="materia-comentario" class="form-label">Matéria</label>
+                    <select class="form-select" id="materia-comentario" name="materia" required>
+                        <option value="">Selecione uma matéria</option>
+                    </select>
+                </div>
+
+                <button type="submit">Selecionar</button>
+            </form>
         </section>
     </main>
 
@@ -100,7 +230,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
         integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
         crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/materiais.js' )}}"></script>
+    <script src="{{ url_for('static', filename='js/materias.js' )}}"></script>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="toastFeedback" class="toast align-items-center text-white bg-primary border-0" role="alert"
